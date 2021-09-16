@@ -1,0 +1,34 @@
+.caption {
+    background-color: white;
+    position: absolute;
+    /* top: 10px; */
+    left: 30px;
+    right: 30px;
+    bottom: 30px;
+    text-align: center;
+}
+
+#fixedBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+#smallBox {
+    background-image: url(../images/portfolio-3.jpg);
+    background-size: 100% 100%;
+    position: relative;
+    padding: 0 20px;
+}
+
+#closeBtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+i {
+    cursor: pointer;
+    font-size: 1.5rem;
+}
