@@ -8,13 +8,16 @@ var smallBox = document.getElementById('smallBox');
 var closeBtn = document.getElementById('closeBtn');
 var prevBtn = document.getElementById('prevBtn');
 var nextBtn = document.getElementById('nextBtn');
-var currIndex = 0; //global variable with initial value 
 
+//global variable
 var imgsArray = [];
 for (var i = 0; i < imgs.length; i++) {
     imgsArray.push(imgs[i]);
 }
 console.log(imgsArray)
+
+var currIndex = 0; //global variable with initial value 
+
 
 // 1) first way : insted var with let i = 0 >> local variable so its work
 
@@ -62,17 +65,20 @@ for (var i = 0; i < imgs.length; i++) {
 
         // 1) i can use this way
 
-        var clickedImage = e.target;
+        var clickedImage = e.target; //tag
+
+        //local variable
         var imgSrc = clickedImage.getAttribute('src');
 
+        //indexOf just Used with array so we need to convert imgs[i] to array
         currIndex = imgsArray.indexOf(clickedImage); //override
 
-        console.log(currIndex);
+        // console.log(currIndex);
         // 2) or this way
 
         // var imgSrc = this.getAttribute('src');
 
-        console.log(imgSrc);
+        // console.log(imgSrc);
 
         fixedBox.classList.replace('d-none', 'd-flex');
 
@@ -82,59 +88,74 @@ for (var i = 0; i < imgs.length; i++) {
 }
 
 
-// close image by close button
+// function
 
 function closeSlide() {
     fixedBox.classList.replace('d-flex', 'd-none')
 
 }
 
-// 1) first way
-
-closeBtn.addEventListener('click', closeSlide);
-
-// 2) secound way ==> when i click in any place closed images
-
-fixedBox.addEventListener('click', closeSlide);
-
-smallBox.addEventListener('click', function(e) {
-    e.stopPropagation();
-});
-
-
-// next Button
-
-nextBtn.addEventListener('click', function() {
+function getNextSlide() {
     currIndex++;
 
-    console.log(currIndex);
+    // console.log(currIndex);
 
     // complete from 0 to 5 and start again from 0 
     if (currIndex == imgsArray.length) {
         currIndex = 0;
     }
 
+    // return the sourse of current img by currIndex
     var source = imgsArray[currIndex].getAttribute('src');
 
-    console.log(source);
+    // console.log(source);
 
     smallBox.style.backgroundImage = `url(${source})`;
+}
 
-});
-
-// previous Button
-
-prevBtn.addEventListener('click', function() {
+function getPrevSlide() {
     currIndex--;
 
-    console.log(currIndex);
+    // console.log(currIndex);
 
     // complete from 0 to 5 and start again from 0 
     if (currIndex == -1) {
         currIndex = 5;
     }
 
+    // return the sourse of current img
     var source = imgsArray[currIndex].getAttribute('src');
     smallBox.style.backgroundImage = `url(${source})`;
+}
 
+// 1) first way
+closeBtn.addEventListener('click', closeSlide);
+
+// 2) secound way ==> when i click in any place closed images
+fixedBox.addEventListener('click', closeSlide);
+
+smallBox.addEventListener('click', function(e) {
+    e.stopPropagation();
+});
+
+// next Button
+nextBtn.addEventListener('click', getNextSlide);
+
+// previous Button
+prevBtn.addEventListener('click', getPrevSlide);
+
+
+
+document.addEventListener('keyup', function(event) {
+    if (fixedBox.getAttribute("class").includes("d-flex")) {
+        // can i use switch case
+        if (event.key == "Escape") {
+            closeSlide();
+        } else if (event.key == "ArrowRight") {
+            getNextSlide();
+
+        } else if (event.key == "ArrowLeft") {
+            getPrevSlide();
+        }
+    }
 });
